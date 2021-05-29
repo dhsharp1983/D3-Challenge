@@ -37,7 +37,11 @@ function PlaceSVG() {
 
     // Create an SVG wrapper, append an SVG group that will hold our chart, and shift the latter by left and top margins.
     svg = d3.select("#scatter")
-
+    // svg = d3.select("body")
+    // .select(".container")
+    // .select(".row")
+    // .select(".col-xs-12  col-md-9")
+    // .select("#scatter")
     .append("svg")
     .attr("width", svgWidth)
     .attr("height", svgHeight);
@@ -46,6 +50,12 @@ function PlaceSVG() {
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 };
 
+// console.log("Start Data Import")
+// var ReadInData = d3.csv("assets/data/Data.csv")
+//     .then(data => TempFunction(data))
+//     .catch(function(error) {
+//         console.log(error);
+//     }); 
 
 // Import Data
 function ImportData() {
@@ -65,8 +75,11 @@ function CreatePlot(inputData) {
       data.id = data.id;
       data.state = data.state;
       data.poverty = data.poverty;
+    //   data.povertyMoe = data.povertyMoe;
       data.age = data.age;
+    //   data.ageMoe = data.ageMoe;
       data.income = data.income;
+    //   data.incomeMoe = data.incomeMoe;
       data.healthcare = data.healthcare;
       data.healthcareLow = data.healthcareLow;
       data.healthcareHigh = data.healthcareHigh;
@@ -82,7 +95,7 @@ function CreatePlot(inputData) {
     // Step 2: Create scale functions
     // ==============================
   
-  var xLinearScale = d3.scaleLinear()
+  var xLinearScale = d3.scaleTime()
     .domain(d3.extent(inputData, d => d.income))
     .range([0, width]);
 
@@ -110,53 +123,62 @@ function CreatePlot(inputData) {
     var circlesGroup = chartGroup.selectAll("circle")
     .data(inputData)
     .enter()
-    .append("g");
-    
-    // append Circles 
-    circlesGroup.append("circle")
-    .classed("circles", true)
+    .append("circle")
+    // .attr("cx", d => xLinearScale(d.hair_length))
+    // .attr("cy", d => yLinearScale(d.num_hits))
+    // .attr("cx", d => xLinearScale(d.income))
+    // .attr("cy", d => yLinearScale(d.obesity))
     .attr("cx", 0)
     .attr("cy", svgHeight)
     .attr("r", 10)
+    // .attr("r", d => (d.income * d.obesity / 50000) )
     .attr("fill", "gold")
     .attr("stroke-width", "1")
-    .attr("stroke", "black");
+    .attr("stroke", "black")
 
-    // append text 
-    circlesGroup.append("text")
-      .attr("font-family",  "Courier")
-      .attr("fill", "black")
-      .attr("font-size", "10")
-      .attr("x", d => xLinearScale(d.income) - 5 )
-      .attr("y", d => yLinearScale(d.obesity) + 5)
-      .text(d => d.abbr);
+    circlesGroup.append("text");
+    circlesGroup.selectAll("text")
+      .text("foo")
     
+    // var g = circlesGroup.enter().append("g")
+
+    // g.append("text")
+    // .attr("dx",12)
+    // .attr("dy",".35em")
+    // .text("foo");
+    // texts = chartGroup.append("text")
+    //   .attr("text-anchor", "middle")
+    //   .attr("alignment-baseline", "middle")
+    //   .style("font-size", 5)
+    //   .attr("fill-opacity",0)
+    //   .attr("fill","black")
+    //   .text("foo")
+    // var g = svg.selectAll("circle")
+    //             .data(inputData)
+    //             .enter()
+    //             .append("g")
+    //             .attr("transform", function(d) {
+    //               return "foo"
+    //             });
+    
+    // g.append("text")
+    //   .text("foo")
+    //   .attr("x", 150)
+    //   .attr("y", 150)
+    //   .attr("cx", 150)
+    //   .attr("cy",150)
 
     // // Step 6: Initialize tool tip
     // // ==============================
     chartGroup.selectAll("circle")
       .transition()
-      .duration(1000)
+      .duration(2000)
       .attr("cx", d => xLinearScale(d.income))
       .attr("cy", d => yLinearScale(d.obesity))
-
+    //   // .attr("cx", (d,i) => xLinearScale(i))
+    //   // .attr("cy", (d,i) => yLinearScale(d))
     // // Step 7: Create tooltip in the chart
     // // ==============================
-    var toolTip = d3.select("#scatter").append("div")
-    .attr("class", "tooltip");
-
-    // Step 2: Create "mouseover" event listener to display tooltip
-    chartGroup.on("mouseover", function(d, i) {
-      toolTip.style("display", "block");
-      toolTip.html(`Medals won: <strong>$$$</strong>`)
-        .style("left", d3.event.pageX + "px")
-        .style("top", d3.event.pageY + "px");
-    })
-
-    // Step 3: Create "mouseout" event listener to hide tooltip
-    .on("mouseout", function() {
-      toolTip.style("display", "none");
-    });
 
     // // Step 8: Create event listeners to display and hide the tooltip
     // // ==============================
