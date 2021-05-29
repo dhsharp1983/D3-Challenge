@@ -8,7 +8,7 @@ var height;
 var svg;
 var chartGroup;
 
-var foobar;
+var foobar
 
 function TempFunction(data) {
     console.log(data);
@@ -99,12 +99,10 @@ function CreatePlot(inputData) {
     // Step 4: Append Axes to the chart
     // ==============================
     chartGroup.append("g")
-      .attr("class", "axisText")
-      .attr("transform", `translate(0, ${height})`)
-      .call(xAxis);
+    .attr("transform", `translate(0, ${height})`)
+    .call(xAxis);
 
     chartGroup.append("g")
-      .attr("class", "axisText")
       .call(yAxis);
 
 
@@ -127,57 +125,56 @@ function CreatePlot(inputData) {
 
     // append text 
     circlesGroup.append("text")
-      .attr("font-family",  "sans-serif")
+      .attr("font-family",  "Courier")
       .attr("fill", "black")
       .attr("font-size", "10")
-      .attr("x", 0)
-      .attr("y", svgHeight)
+      .attr("x", d => xLinearScale(d.income) - 5 )
+      .attr("y", d => yLinearScale(d.obesity) + 5)
       .text(d => d.abbr);
     
-    // Transition Animation
-    chartGroup.selectAll("circle")
-    .transition()
-    .duration(1000)
-    .attr("cx", d => xLinearScale(d.income))
-    .attr("cy", d => yLinearScale(d.obesity))
-    
-    circlesGroup.selectAll("text")
-    .transition()
-    .duration(1000)
-    .attr("x", d => xLinearScale(d.income) - 5 )
-    .attr("y", d => yLinearScale(d.obesity) + 5)
 
+    // // Step 6: Initialize tool tip
+    // // ==============================
+    chartGroup.selectAll("circle")
+      .transition()
+      .duration(1000)
+      .attr("cx", d => xLinearScale(d.income))
+      .attr("cy", d => yLinearScale(d.obesity))
 
     // // Step 7: Create tooltip in the chart
     // // ==============================
-    var toolTip = d3.select("body").append("div")
+    var toolTip = d3.select("#scatter").append("div")
     .attr("class", "tooltip");
 
-
-    circlesGroup.on("mouseover", function(d, i) {
+    // Step 2: Create "mouseover" event listener to display tooltip
+    chartGroup.on("mouseover", function(d, i) {
       toolTip.style("display", "block");
-      toolTip.html("<h6>foo<h6>")
-      toolTip.html(`${d.abbr}: <br> Income: $${d.income} <br> Obesity: % ${d.obesity}`)
+      toolTip.html(`Medals won: <strong>$$$</strong>`)
         .style("left", d3.event.pageX + "px")
         .style("top", d3.event.pageY + "px");
     })
+
+    // Step 3: Create "mouseout" event listener to hide tooltip
     .on("mouseout", function() {
       toolTip.style("display", "none");
     });
 
-    // Create axes labels
-    chartGroup.append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("x", 0 - margin.left - 180)
-      .attr("y", -45)
-      .attr("dy", "1em")
-      .attr("class", "axisText")
-      .text("% of Population Obesity");
+    // // Step 8: Create event listeners to display and hide the tooltip
+    // // ==============================
 
-    chartGroup.append("text")
-      .attr("transform", `translate(${width / 2}, ${height + margin.top + 30})`)
-      .attr("class", "axisText")
-      .text("Average Income of Population");
+    // // Create axes labels
+    // chartGroup.append("text")
+    //   .attr("transform", "rotate(-90)")
+    //   .attr("y", 0 - margin.left + 40)
+    //   .attr("x", 0 - (height / 2))
+    //   .attr("dy", "1em")
+    //   .attr("class", "axisText")
+    //   .text("Number of Billboard 100 Hits");
+
+    // chartGroup.append("text")
+    //   .attr("transform", `translate(${width / 2}, ${height + margin.top + 30})`)
+    //   .attr("class", "axisText")
+    //   .text("Hair Metal Band Hair Length (inches)");
 };
 
 PlaceSVG();
