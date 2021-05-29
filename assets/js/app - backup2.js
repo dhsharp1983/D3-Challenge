@@ -8,7 +8,7 @@ var height;
 var svg;
 var chartGroup;
 
-var foobar;
+var foobar
 
 function TempFunction(data) {
     console.log(data);
@@ -125,7 +125,7 @@ function CreatePlot(inputData) {
 
     // append text 
     circlesGroup.append("text")
-      .attr("font-family",  "sans-serif")
+      .attr("font-family",  "Courier")
       .attr("fill", "black")
       .attr("font-size", "10")
       .attr("x", d => xLinearScale(d.income) - 5 )
@@ -143,14 +143,13 @@ function CreatePlot(inputData) {
 
     // // Step 7: Create tooltip in the chart
     // // ==============================
-    var toolTip = d3.select("body").append("div")
+    var toolTip = d3.select("#scatter").append("div")
     .attr("class", "tooltip");
 
     // Step 2: Create "mouseover" event listener to display tooltip
-    circlesGroup.on("mouseover", function(d, i) {
+    chartGroup.on("mouseover", function(d, i) {
       toolTip.style("display", "block");
-      toolTip.html("<h6>foo<h6>")
-      toolTip.html(`${d.abbr}: <br> Income: $${d.income} <br> Obesity: % ${d.obesity}`)
+      toolTip.html(`Medals won: <strong>$$$</strong>`)
         .style("left", d3.event.pageX + "px")
         .style("top", d3.event.pageY + "px");
     })

@@ -3,6 +3,21 @@
   border: 1px solid #e3e3e3;
 }
 
+.tooltip {
+  position: absolute;
+  width: 120px;
+  height: 60px;
+  padding: 10px;
+  font: 12px sans-serif;
+  text-align: center;
+  color: white;
+  background: blue;
+  border: 0;
+  border-radius: 10px;
+  display: none;
+  opacity: 1;
+}
+
 /* Sticky Footer rules (https://getbootstrap.com/examples/sticky-footer/) */
 html {
   position: relative;
