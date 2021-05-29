@@ -51,7 +51,7 @@ function PlaceSVG() {
 // Import Data
 function ImportData() {
     console.log("Start Data Import")
-    d3.csv("assets/data/Data.csv")
+    d3.csv("assets/data/data.csv")
         .then(data => CreatePlot(data))
         .catch(function(error) {
             console.log(error);
