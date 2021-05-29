@@ -11,11 +11,15 @@
   font: 12px sans-serif;
   text-align: center;
   color: white;
-  background: blue;
+  background: rgb(228, 35, 35);
   border: 0;
   border-radius: 10px;
   display: none;
   opacity: 1;
+}
+
+.axisText {
+  font-weight: bold;
 }
 
 /* Sticky Footer rules (https://getbootstrap.com/examples/sticky-footer/) */
